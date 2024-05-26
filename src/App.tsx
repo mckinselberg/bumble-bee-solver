@@ -3,6 +3,7 @@ import words from "./words.js";
 import "./App.css";
 
 const dictionary = new Set(words);
+console.log(dictionary);
 
 // function getAllCombinations(str) {
 //   const results = [];
@@ -93,9 +94,10 @@ function filterValidWords(permutations, letters) {
 }
 
 function getAllValidWords(letters) {
+  console.log(letters);
   const permutations = getAllPermutationsOfCombinationsWithRepetition(
     letters,
-    10,
+    4,
   );
   const validWords = filterValidWords(permutations, letters);
   return Array.from(new Set(validWords)); // Removing duplicates
