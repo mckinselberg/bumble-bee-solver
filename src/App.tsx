@@ -3,22 +3,6 @@ import words from "./words.js";
 import "./App.css";
 
 const dictionary = new Set(words);
-console.log(dictionary);
-
-// function getAllCombinations(str) {
-//   const results = [];
-
-//   function helper(prefix, remaining) {
-//     for (let i = 0; i < remaining.length; i++) {
-//       const newPrefix = prefix + remaining[i];
-//       results.push(newPrefix);
-//       helper(newPrefix, remaining.slice(i + 1));
-//     }
-//   }
-
-//   helper("", str);
-//   return results;
-// }
 
 function getAllCombinationsWithRepetition(str, maxLength) {
   const results = [];
@@ -58,18 +42,6 @@ function getPermutations(str) {
   return permutations;
 }
 
-// function getAllPermutationsOfCombinations(str) {
-//   const combinations = getAllCombinations(str);
-//   const allPermutations = new Set();
-
-//   for (const combination of combinations) {
-//     const permutations = getPermutations(combination);
-//     permutations.forEach((perm) => allPermutations.add(perm));
-//   }
-
-//   return Array.from(allPermutations);
-// }
-
 function getAllPermutationsOfCombinationsWithRepetition(str, maxLength) {
   const combinations = getAllCombinationsWithRepetition(str, maxLength);
   const allPermutations = new Set();
@@ -83,8 +55,7 @@ function getAllPermutationsOfCombinationsWithRepetition(str, maxLength) {
 }
 
 function filterValidWords(permutations, letters) {
-  // console.log(permutations);xcvuy
-  letters && console.log(letters[letters.length - 1]);
+  // letters && console.log(letters[letters.length - 1]);
   return permutations.filter(
     (word) =>
       word.length >= 4 &&
@@ -94,7 +65,6 @@ function filterValidWords(permutations, letters) {
 }
 
 function getAllValidWords(letters) {
-  console.log(letters);
   const permutations = getAllPermutationsOfCombinationsWithRepetition(
     letters,
     4,
