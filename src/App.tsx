@@ -1,5 +1,5 @@
-import { FormEvent, useState } from "react";
-import words from "./words.js";
+import React, { FormEvent, useState } from "react";
+import words from "./words";
 import "./App.css";
 
 const dictionary = new Set(words);
@@ -75,9 +75,9 @@ function getAllValidWords(letters) {
 
 function App() {
   const [inputValue, setInputValue] = useState("");
-  const [words, setWords] = useState([]);
+  const [words, setWords] = useState<string[]>([]);
 
-  const handleChange = (event: Event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
@@ -90,7 +90,7 @@ function App() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input value={"" || inputValue} onChange={handleChange}></input>
+        <input value={inputValue} onChange={handleChange}></input>
         <button>submit</button>
         {words.map((word) => (
           <p id={word}>{word}</p>
