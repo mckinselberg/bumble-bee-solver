@@ -4,73 +4,28 @@ import "./App.css";
 
 const dictionary = new Set(words);
 
-function getAllCombinationsWithRepetition(str, maxLength) {
-  const results = [];
+function getAllValidWords(letters: string, center: string) {
+  const allowed = new Set(letters.split(""));
+  const validWords = new Set<string>();
 
-  function helper(prefix, remainingLength) {
-    if (remainingLength === 0) {
-      return;
+  for (const word of dictionary) {
+    if (word.length < 4 || !word.includes(center)) {
+      continue;
     }
 
-    for (let i = 0; i < str.length; i++) {
-      const newPrefix = prefix + str[i];
-      results.push(newPrefix);
-      helper(newPrefix, remainingLength - 1);
+    let isValid = true;
+    for (const char of word) {
+      if (!allowed.has(char)) {
+        isValid = false;
+        break;
+      }
+    }
+    if (isValid) {
+      validWords.add(word);
     }
   }
 
-  for (let length = 1; length <= maxLength; length++) {
-    helper("", length);
-  }
-
-  return results;
-}
-
-function getPermutations(str) {
-  if (str.length <= 1) {
-    return [str];
-  }
-  const permutations = [];
-  const smallerPerms = getPermutations(str.slice(1));
-  const firstChar = str[0];
-  for (const perm of smallerPerms) {
-    for (let i = 0; i <= perm.length; i++) {
-      const newPerm = perm.slice(0, i) + firstChar + perm.slice(i);
-      permutations.push(newPerm);
-    }
-  }
-  return permutations;
-}
-
-function getAllPermutationsOfCombinationsWithRepetition(str, maxLength) {
-  const combinations = getAllCombinationsWithRepetition(str, maxLength);
-  const allPermutations = new Set();
-
-  for (const combination of combinations) {
-    const permutations = getPermutations(combination);
-    permutations.forEach((perm) => allPermutations.add(perm));
-  }
-
-  return Array.from(allPermutations);
-}
-
-function filterValidWords(permutations, letters) {
-  // letters && console.log(letters[letters.length - 1]);
-  return permutations.filter(
-    (word) =>
-      word.length >= 4 &&
-      word.includes(letters[letters.length - 1]) &&
-      dictionary.has(word),
-  );
-}
-
-function getAllValidWords(letters) {
-  const permutations = getAllPermutationsOfCombinationsWithRepetition(
-    letters,
-    4,
-  );
-  const validWords = filterValidWords(permutations, letters);
-  return Array.from(new Set(validWords)); // Removing duplicates
+  return Array.from(validWords);
 }
 
 function App() {
@@ -83,8 +38,9 @@ function App() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const letterArr = inputValue;
-    setWords(getAllValidWords(letterArr));
+    const letters = inputValue;
+    const center = letters.charAt(letters.length - 1);
+    setWords(getAllValidWords(letters, center));
   };
 
   return (
