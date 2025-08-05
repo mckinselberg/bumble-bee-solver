@@ -103,7 +103,7 @@ function App() {
         />
         <button>submit</button>
         {words.map((word) => (
-          <p id={word}>{word}</p>
+          <p key={word}>{word}</p>
         ))}
       </form>
     </>
