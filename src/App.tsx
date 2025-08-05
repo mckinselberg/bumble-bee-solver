@@ -54,43 +54,53 @@ function getAllPermutationsOfCombinationsWithRepetition(str, maxLength) {
   return Array.from(allPermutations);
 }
 
-function filterValidWords(permutations, letters) {
-  // letters && console.log(letters[letters.length - 1]);
+function filterValidWords(permutations, center) {
   return permutations.filter(
-    (word) =>
-      word.length >= 4 &&
-      word.includes(letters[letters.length - 1]) &&
-      dictionary.has(word),
+    (word) => word.length >= 4 && word.includes(center) && dictionary.has(word),
   );
 }
 
-function getAllValidWords(letters) {
+function getAllValidWords(letters, center) {
   const permutations = getAllPermutationsOfCombinationsWithRepetition(
     letters,
     4,
   );
-  const validWords = filterValidWords(permutations, letters);
+  const validWords = filterValidWords(permutations, center);
   return Array.from(new Set(validWords)); // Removing duplicates
 }
 
 function App() {
-  const [inputValue, setInputValue] = useState("");
+  const [lettersValue, setLettersValue] = useState("");
+  const [centerValue, setCenterValue] = useState("");
   const [words, setWords] = useState<string[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const handleLettersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLettersValue(event.target.value);
+  };
+
+  const handleCenterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCenterValue(event.target.value);
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const letterArr = inputValue;
-    setWords(getAllValidWords(letterArr));
+    setWords(getAllValidWords(lettersValue, centerValue));
   };
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input value={inputValue} onChange={handleChange}></input>
+        <input
+          placeholder="letters"
+          value={lettersValue}
+          onChange={handleLettersChange}
+        />
+        <input
+          placeholder="center"
+          value={centerValue}
+          onChange={handleCenterChange}
+          maxLength={1}
+        />
         <button>submit</button>
         {words.map((word) => (
           <p id={word}>{word}</p>
